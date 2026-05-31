@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>Tour Packages</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+background-image:url('/images/travelbg1.jpg');
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+}
+
+.heading{
+text-align:center;
+margin-top:20px;
+color:white;
+font-weight:bold;
+}
+
+.package-card{
+background:rgba(255,255,255,0.85);
+border-radius:20px;
+overflow:hidden;
+margin-bottom:30px;
+transition:0.3s;
+}
+
+.package-card:hover{
+transform:scale(1.03);
+}
+
+.package-img{
+height:220px;
+object-fit:cover;
+width:100%;
+}
+
+.price{
+font-size:24px;
+font-weight:bold;
+color:green;
+}
+
+.search-box{
+
+max-width:450px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1 class="heading">
+Explore Tour Packages
+</h1>
+
+<form
+action="/packages"
+method="get"
+class="search-box mx-auto mb-4">
+
+<div class="input-group">
+
+<input
+type="text"
+name="keyword"
+class="form-control"
+placeholder="Search by package, destination or attraction"
+th:value="${keyword}">
+
+<button
+class="btn btn-dark"
+type="submit">
+
+Search
+
+</button>
+
+</div>
+
+</form>
+
+<div class="container mt-5">
+
+<div class="row">
+
+<div class="col-md-4 mb-4" th:each="p:${packages}">
+
+    <div class="package-card">
+
+        <img class="package-img" 
+             th:src="${p.imageUrl}"
+             alt="Beautiful travel destination image unavailable">
+
+        <div class="p-3">
+
+            <h3 th:text="${p.packageName}"></h3>
+
+            <p>
+                📍 Destination:
+                <span th:text="${p.destination}"></span>
+            </p>
+
+            <p>
+                ⏳ Duration:
+                <span th:text="${p.duration}"></span> Days
+            </p>
+
+            <p class="price">
+                ₹<span th:text="${p.price}"></span>
+            </p>
+
+            <p>
+                Available Seats:
+                <span th:text="${p.availableSeats}"></span>
+            </p>
+
+            <a th:href="@{'/package/' + ${p.packageId}}"
+            class="btn btn-primary">
+            View Details
+            </a>
+
+            <form th:action="@{'/packages/delete/' + ${p.packageId}}"
+                  method="post"
+                  style="display:inline;">
+
+                <button type="submit" class="btn btn-danger">
+                    Delete
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

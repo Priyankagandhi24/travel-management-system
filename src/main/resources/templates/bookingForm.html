@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>Book Package</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<style>
+
+body{
+background-image:url('/images/travelbg.jpg');
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+}
+
+.container{
+
+background:rgba(102,179,220,0.75);
+
+padding:30px;
+
+border-radius:15px;
+
+margin-top:40px;
+
+margin-bottom:40px;
+
+max-width:800px;
+
+}
+
+.package-img{
+
+width:100%;
+
+height:300px;
+
+object-fit:cover;
+
+border-radius:10px;
+
+margin-bottom:20px;
+
+}
+
+.info-box{
+
+background:rgba(255,255,255,0.7);
+
+padding:15px;
+
+border-radius:10px;
+
+margin-bottom:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2 class="text-center mb-4">
+
+Book Package
+
+</h2>
+
+
+<!-- Package Details -->
+
+<img class="package-img"
+th:src="${package.imageUrl}"
+alt="Travel package image unavailable">
+
+
+<div class="info-box">
+
+<h3 th:text="${package.packageName}">
+</h3>
+
+<hr>
+
+<p>
+
+<b>Destination:</b>
+
+<span th:text="${package.destination}">
+</span>
+
+</p>
+
+<p>
+
+<b>Duration:</b>
+
+<span th:text="${package.duration}">
+</span>
+
+days
+
+</p>
+
+<p>
+
+<b>Price Per Person:</b>
+
+₹
+<span id="price"
+th:text="${package.price}">
+</span>
+
+</p>
+
+</div>
+
+
+<form action="/saveBooking"
+method="post">
+
+
+<input
+type="hidden"
+name="packageId"
+th:value="${package.packageId}">
+
+
+<div class="mb-3">
+
+<label>User ID</label>
+
+<input
+class="form-control"
+name="userId"
+th:value="${user.userId}"
+readonly>
+
+</div>
+
+
+<div class="mb-3">
+
+<label>User Name</label>
+
+<input
+class="form-control"
+name="userName"
+th:value="${user.name}"
+readonly>
+
+</div>
+
+
+<div class="mb-3">
+
+<label>Number of People</label>
+
+<input
+type="number"
+class="form-control"
+id="people"
+name="numberOfPeople"
+min="1"
+required>
+
+</div>
+
+
+<div class="mb-3">
+
+<label>Total Amount</label>
+
+<input
+type="text"
+id="total"
+name="totalAmount"
+class="form-control"
+readonly>
+
+</div>
+
+
+<button class="btn btn-success w-100">
+
+Confirm Booking
+
+</button>
+
+</form>
+
+</div>
+
+
+<script>
+
+let people=
+document.getElementById(
+"people");
+
+people.addEventListener(
+"input",
+function(){
+
+let price=
+parseFloat(
+document.getElementById(
+"price").innerText
+);
+
+let count=
+parseInt(
+people.value
+);
+
+if(!isNaN(count))
+{
+document.getElementById(
+"total")
+.value=
+price*count;
+}
+else
+{
+document.getElementById(
+"total")
+.value="";
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

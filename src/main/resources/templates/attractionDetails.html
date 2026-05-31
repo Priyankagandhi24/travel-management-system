@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>Attraction Details</title>
+
+<link href=
+"https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<style>
+
+body{
+background-image:url('/images/travelbg.jpg');
+background-size:cover;
+background-position:center;
+padding:40px;
+}
+
+.container{
+background:rgba(255,255,194,0.85);
+padding:30px;
+border-radius:20px;
+}
+
+img{
+width:100%;
+height:350px;
+object-fit:cover;
+border-radius:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1 th:text="${attraction.attractionName}"></h1>
+
+<img th:src="${attraction.imageUrl}"
+alt="Attraction image unavailable">
+
+<br><br>
+
+<h4>
+Location:
+<span th:text="${attraction.location}"></span>
+</h4>
+
+<h4>Description</h4>
+
+<p th:text="${attraction.description}"></p>
+
+<a href="/packages"
+class="btn btn-secondary">
+
+Back
+
+</a>
+
+</div>
+
+</body>
+
+</html>

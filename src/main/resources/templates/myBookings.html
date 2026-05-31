@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>My Bookings</title>
+
+<link href=
+"https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<style>
+
+body{
+
+background-image:
+url('/images/travelbg1.jpg');
+
+background-size:cover;
+
+}
+
+.container{
+
+margin-top:50px;
+
+background:
+rgba(255,255,194,0.8);
+
+padding:30px;
+
+border-radius:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2 class="mb-4">
+
+My Bookings
+
+</h2>
+
+<table class="table table-bordered">
+
+<tr>
+
+<th>
+Booking ID
+</th>
+
+<th>
+Package ID
+</th>
+
+<th>
+People
+</th>
+
+<th>
+Amount
+</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+<tr
+th:each=
+"b:${bookings}">
+
+<td
+th:text=
+"${b.bookingId}">
+</td>
+
+<td
+th:text=
+"${b.packageId}">
+</td>
+
+<td
+th:text=
+"${b.numberOfPeople}">
+</td>
+
+<td>
+
+₹
+<span
+th:text=
+"${b.totalAmount}">
+</span>
+
+</td>
+
+<td th:text="${b.status}">
+</td>
+
+<td>
+
+<a
+th:href="@{'/cancelBooking/' + ${b.bookingId}}"
+class="btn btn-danger btn-sm">
+
+Cancel
+
+</a>
+
+</td>
+
+</tr>
+
+</table>
+
+</div>
+
+</body>
+
+</html>

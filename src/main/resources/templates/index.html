@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<title>ExploreWorld</title>
+
+<link href=
+"https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+rel="stylesheet">
+
+<style>
+
+body{
+background-image:url('/images/homebg.jpg');
+background-size:cover;
+background-position:center;
+background-attachment:fixed;
+}
+
+.overlay{
+background:rgba(0,0,0,0.45);
+min-height:100vh;
+padding:30px;
+}
+
+.navbar{
+
+background:rgba(0,0,0,0.35);
+
+backdrop-filter:blur(10px);
+
+padding:15px 25px;
+
+border-radius:18px;
+
+margin-bottom:30px;
+
+}
+
+.logo{
+font-size:38px;
+font-weight:bold;
+color:white;
+}
+
+.hero{
+text-align:center;
+color:white;
+margin-top:60px;
+}
+
+.hero h1{
+font-size:60px;
+font-weight:bold;
+}
+
+.section-title{
+color:white;
+font-size:30px;
+margin-top:50px;
+margin-bottom:20px;
+font-weight:bold;
+}
+
+.feature-card{
+background:rgba(255,255,194,0.85);
+border-radius:20px;
+padding:20px;
+transition:0.4s;
+height:180px;
+}
+
+.feature-card:hover{
+transform:scale(1.05);
+}
+
+.scroll-box{
+
+display:flex;
+overflow-x:auto;
+gap:20px;
+padding-bottom:20px;
+
+scroll-behavior:smooth;
+}
+
+
+/* Track */
+
+.scroll-box::-webkit-scrollbar{
+
+height:14px;
+
+}
+
+
+/* Background line */
+
+.scroll-box::-webkit-scrollbar-track{
+
+background:rgba(255,255,255,0.4);
+
+border-radius:30px;
+
+}
+
+
+/* Knob */
+
+.scroll-box::-webkit-scrollbar-thumb{
+
+background:rgba(255,255,194,0.95);
+
+border-radius:30px;
+
+border:3px solid rgba(0,0,0,0.2);
+
+}
+
+
+/* Hover effect */
+
+.scroll-box::-webkit-scrollbar-thumb:hover{
+
+background:white;
+}
+
+.package-card{
+min-width:300px;
+background:white;
+border-radius:15px;
+padding:15px;
+}
+
+.package-card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.footer{
+background:rgba(255,255,255,0.2);
+margin-top:60px;
+padding:25px;
+border-radius:20px;
+color:white;
+}
+
+.footer a{
+color:white;
+text-decoration:none;
+margin-right:25px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="overlay">
+
+<nav class="navbar d-flex justify-content-between">
+
+<div class="logo">
+
+ExploreWorld
+
+</div>
+
+<div>
+
+<a href="/packages"
+class="btn btn-light">
+
+Packages
+
+</a>
+
+<a href="/attractions"
+class="btn btn-light">
+
+Attractions
+
+</a>
+
+<div th:if="${session.role == 'ADMIN'}"
+style="display:inline;">
+
+<a href="/admin/dashboard"
+class="btn btn-warning">
+
+Admin Panel
+
+</a>
+
+</div>
+
+<span
+th:if="${user!=null}"
+style="
+color:white;
+font-weight:bold;
+margin-left:15px;">
+
+Welcome,
+<span th:text="${user.name}">
+</span>
+
+</span>
+
+<a
+th:if="${user==null}"
+href="/login"
+class="btn btn-success">
+
+Login
+
+</a>
+
+<a
+th:if="${user!=null}"
+href="/logout"
+class="btn btn-danger">
+
+Logout
+
+</a>
+
+<a
+th:if="${user!=null}"
+href="/myBookings"
+class="btn btn-info">
+
+My Bookings
+
+</a>
+
+</div>
+
+</nav>
+
+
+
+<div class="hero">
+
+<h1>
+Explore The World
+</h1>
+
+<p>
+Find amazing destinations and memorable journeys
+</p>
+
+</div>
+
+
+
+<div class="container mt-5">
+
+<div class="row">
+
+<div class="col-md-4">
+
+<div class="feature-card">
+
+<h3>🌴 Best Destinations</h3>
+
+<p>
+Discover beautiful places around the world
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="feature-card">
+
+<h3>💰 Affordable Packages</h3>
+
+<p>
+Budget friendly travel experiences
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-4">
+
+<div class="feature-card">
+
+<h3>✈ Safe Journey</h3>
+
+<p>
+Comfortable and secure travel
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<h2 class="section-title">
+
+Popular Packages
+
+</h2>
+
+<div class="scroll-box">
+
+<div class="package-card"
+th:each="p:${packages}"
+th:if="${pStat.index<5}"
+th:object="${p}"
+th:with="pStat=${#ids.seq('p')}">
+
+<img th:src="*{imageUrl}"
+alt="Package Image">
+
+<h4 th:text="*{packageName}">
+</h4>
+
+<p>
+
+📍
+<span th:text="*{destination}">
+</span>
+
+</p>
+
+<p>
+
+₹
+<span th:text="*{price}">
+</span>
+
+</p>
+
+<a th:href="@{'/package/' + *{packageId}}"
+class="btn btn-primary">
+
+View
+
+</a>
+
+</div>
+
+</div>
+
+<div class="mt-3">
+
+<a href="/packages"
+class="btn btn-warning">
+
+View More Packages
+
+</a>
+
+</div>
+
+
+
+<h2 class="section-title">
+
+Popular Attractions
+
+</h2>
+
+<div class="scroll-box">
+
+<div class="package-card"
+th:each="a:${attractions}">
+
+<img th:src="${a.imageUrl}"
+alt="Attraction Image">
+
+<h4 th:text="${a.attractionName}">
+</h4>
+
+<p>
+
+📍
+<span th:text="${a.location}">
+</span>
+
+</p>
+
+<a th:href="@{'/attraction/' + ${a.attractionId}}"
+class="btn btn-success">
+
+View
+
+</a>
+
+</div>
+
+</div>
+
+<div class="mt-3">
+
+<a href="/attractions"
+class="btn btn-warning">
+
+View More Attractions
+
+</a>
+
+</div>
+
+
+
+<div class="footer">
+
+<h3>
+
+About Us
+
+</h3>
+
+<p>
+
+ExploreWorld helps travelers discover destinations,
+explore attractions and book unforgettable journeys.
+
+</p>
+
+<hr>
+
+<a href="/">Home</a>
+
+<a href="/packages">Packages</a>
+
+<a href="/attractions">Attractions</a>
+
+<a href="#">Contact Us</a>
+
+<a href="#">Privacy Policy</a>
+
+</div>
+
+</div>
+
+</div>
+
+</body>
+
+</html>
