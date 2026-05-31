@@ -12,10 +12,7 @@ rel="stylesheet">
 <style>
 
 body{
-background-image:url('/images/homebg.jpg');
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
+    background:#003566 ;
 }
 
 .overlay{
@@ -25,17 +22,10 @@ padding:30px;
 }
 
 .navbar{
-
 background:rgba(0,0,0,0.35);
-
 backdrop-filter:blur(10px);
-
 padding:15px 25px;
-
-border-radius:18px;
-
 margin-bottom:30px;
-
 }
 
 .logo{
@@ -64,7 +54,7 @@ font-weight:bold;
 }
 
 .feature-card{
-background:rgba(255,255,194,0.85);
+background:#FFC8DD;
 border-radius:20px;
 padding:20px;
 transition:0.4s;
@@ -162,97 +152,32 @@ margin-right:25px;
 
 <div class="overlay">
 
-<nav class="navbar d-flex justify-content-between">
-
-<div class="logo">
-
-ExploreWorld
-
+<div th:replace="~{fragments/navbar :: navbar}">
 </div>
-
-<div>
-
-<a href="/packages"
-class="btn btn-light">
-
-Packages
-
-</a>
-
-<a href="/attractions"
-class="btn btn-light">
-
-Attractions
-
-</a>
-
-<div th:if="${session.role == 'ADMIN'}"
-style="display:inline;">
-
-<a href="/admin/dashboard"
-class="btn btn-warning">
-
-Admin Panel
-
-</a>
-
-</div>
-
-<span
-th:if="${user!=null}"
-style="
-color:white;
-font-weight:bold;
-margin-left:15px;">
-
-Welcome,
-<span th:text="${user.name}">
-</span>
-
-</span>
-
-<a
-th:if="${user==null}"
-href="/login"
-class="btn btn-success">
-
-Login
-
-</a>
-
-<a
-th:if="${user!=null}"
-href="/logout"
-class="btn btn-danger">
-
-Logout
-
-</a>
-
-<a
-th:if="${user!=null}"
-href="/myBookings"
-class="btn btn-info">
-
-My Bookings
-
-</a>
-
-</div>
-
-</nav>
-
-
 
 <div class="hero">
+
+<h3 th:if="${user!=null}"
+                  style="color:white;
+                         font-weight:bold;
+                         margin-left:15px;">
+
+                Welcome,
+                <span th:text="${user.name}"></span>
+
+</h3>
 
 <h1>
 Explore The World
 </h1>
 
+
+
 <p>
 Find amazing destinations and memorable journeys
 </p>
+
+
 
 </div>
 

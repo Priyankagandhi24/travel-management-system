@@ -11,28 +11,14 @@ rel="stylesheet">
 <style>
 
 body{
-
-background-image:url('/images/travelbg1.jpg');
-background-size:cover;
-background-position:center;
-background-attachment:fixed;
-
+    background:#003566 ;
 }
 
 .container{
-
-background:rgba(255,255,194,0.75);
-
+background:#FFC8DD ;
 padding:30px;
-
 margin-top:50px;
-
 margin-bottom:50px;
-
-border-radius:20px;
-
-box-shadow:0 4px 12px rgba(0,0,0,0.3);
-
 }
 
 .package-img{
@@ -69,6 +55,19 @@ margin-bottom:15px;
 
 }
 
+.navbar{
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(10px);
+    padding:15px 25px;
+    margin-bottom:30px;
+}
+
+.logo{
+    font-size:38px;
+    font-weight:bold;
+    color:white;
+}
+
 .attraction-link{
 
 font-size:18px;
@@ -92,6 +91,9 @@ color:#084298;
 </head>
 
 <body>
+
+    <div th:replace="~{fragments/navbar :: navbar}">
+</div>
 
 <div class="container">
 
@@ -164,10 +166,9 @@ This package is Sold Out.
 </div>
 
 <a href="/packages"
-class="btn btn-secondary">
-
-Back
-
+   class="btn"
+   style="background:black;color:white;">
+    Back
 </a>
 
 <div

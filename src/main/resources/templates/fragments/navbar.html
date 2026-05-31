@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="navbar">
+
+    <nav class="navbar d-flex justify-content-between">
+
+        <div class="logo">
+            ExploreWorld
+        </div>
+
+        <div>
+
+            <a href="/packages"
+               class="btn btn-light">
+                Packages
+            </a>
+
+            <a href="/attractions"
+               class="btn btn-light">
+                Attractions
+            </a>
+
+            <div th:if="${session.role == 'ADMIN'}"
+                 style="display:inline;">
+
+                <a href="/admin/dashboard"
+                   class="btn btn-warning">
+                    Admin Panel
+                </a>
+
+            </div>
+
+            
+
+            <a th:if="${user==null}"
+               href="/login"
+               class="btn btn-success">
+                Login
+            </a>
+
+            <a th:if="${user!=null}"
+               href="/logout"
+               class="btn btn-danger">
+                Logout
+            </a>
+
+            <a th:if="${user!=null}"
+               href="/myBookings"
+               class="btn btn-info">
+                My Bookings
+            </a>
+
+        </div>
+
+    </nav>
+
+</div>
+
+</body>
+</html>

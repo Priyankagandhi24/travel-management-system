@@ -11,20 +11,12 @@ rel="stylesheet">
 <style>
 
 body{
-
-background-image:url('/images/travelbg8.jpg');
-
-background-size:cover;
-
-background-position:center;
-
-background-attachment:fixed;
-
+    background:#003566 ;
 }
 
 .container{
 
-background:rgba(255,255,194,0.78);
+background:#FFC8DD;
 
 padding:30px;
 
@@ -96,11 +88,33 @@ max-width:450px;
 
 }
 
+.navbar{
+    background:rgba(0,0,0,0.35);
+    backdrop-filter:blur(10px);
+    padding:15px 25px;
+    margin-bottom:30px;
+}
+
+.logo{
+    font-size:38px;
+    font-weight:bold;
+    color:white;
+}
+
 </style>
 
 </head>
 
 <body>
+
+<div class="overlay">
+
+    <div th:replace="~{fragments/navbar :: navbar}">
+    </div>
+
+    <!-- Page Content -->
+
+</div>
 
 <div class="container">
 

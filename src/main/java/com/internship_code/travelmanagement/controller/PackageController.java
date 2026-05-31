@@ -54,6 +54,42 @@ public class PackageController {
         return "index";
     }
 
+@GetMapping("/package/{id}")
+public String packageDetails(
+        @PathVariable Long id,
+        Model model)
+{
+    TourPackage p =
+            packageRepo.findById(id)
+            .orElse(null);
+
+    model.addAttribute("package", p);
+
+    List<PackageAttraction> links =
+            packageAttractionRepo.findByPackageId(id);
+
+    List<Attraction> attractions =
+            new ArrayList<>();
+
+    for(PackageAttraction pa : links)
+    {
+        Attraction a =
+                attractionRepo.findById(
+                        pa.getAttractionId())
+                .orElse(null);
+
+        if(a != null)
+        {
+            attractions.add(a);
+        }
+    }
+
+    model.addAttribute(
+            "attractions",
+            attractions);
+
+    return "packageDetails";
+}
 
     @GetMapping("/packages")
     public String showPackages(

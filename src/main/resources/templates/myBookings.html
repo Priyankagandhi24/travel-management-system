@@ -12,20 +12,14 @@ rel="stylesheet">
 <style>
 
 body{
-
-background-image:
-url('/images/travelbg1.jpg');
-
-background-size:cover;
-
+    background:#003566 ;
 }
 
 .container{
 
 margin-top:50px;
 
-background:
-rgba(255,255,194,0.8);
+background:#FFC8DD ;
 
 padding:30px;
 
@@ -102,24 +96,68 @@ th:text=
 
 </td>
 
-<td th:text="${b.status}">
+<td>
+
+    <span th:if="${b.status == 'Booked'}"
+          class="badge bg-warning text-dark">
+        Booked
+    </span>
+
+    <span th:if="${b.status == 'Coming Soon'}"
+          class="badge bg-success">
+        Coming Soon
+    </span>
+
+    <span th:if="${b.status == 'Ongoing'}"
+          class="badge bg-dark">
+        Ongoing
+    </span>
+
+    <span th:if="${b.status == 'Completed'}"
+          class="badge bg-dark">
+        Completed
+    </span>
+
+    <span th:if="${b.status == 'Cancelled'}"
+          class="badge bg-danger">
+        Cancelled
+    </span>
+
 </td>
 
 <td>
 
-<a
-th:href="@{'/cancelBooking/' + ${b.bookingId}}"
-class="btn btn-danger btn-sm">
+<a th:if="${b.status == 'Booked' || b.status == 'Coming Soon'}"
+   th:href="@{'/cancelBooking/' + ${b.bookingId}}"
+   class="btn btn-danger btn-sm">
 
-Cancel
+    Cancel
 
 </a>
+
+<span
+th:if="${b.status == 'CANCELLED'}"
+class="badge bg-secondary">
+
+Already Cancelled
+
+</span>
 
 </td>
 
 </tr>
 
 </table>
+<div class="text-center mt-4">
+
+    <a href="/"
+       class="btn btn-dark btn-lg">
+
+        ← Back to Home
+
+    </a>
+
+</div>
 
 </div>
 

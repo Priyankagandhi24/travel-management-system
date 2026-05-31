@@ -1,5 +1,7 @@
 package com.internship_code.travelmanagement.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,28 +100,76 @@ public class BookingController {
 
 
     @GetMapping("/myBookings")
-    public String myBookings(
-            HttpSession session,
-            Model model)
+public String myBookings(
+        HttpSession session,
+        Model model)
+{
+
+    User u =
+        (User) session.getAttribute("loggedUser");
+
+    if(u == null)
     {
-
-        User u =
-            (User) session.getAttribute(
-                    "loggedUser");
-
-        if(u == null)
-        {
-            return "redirect:/login";
-        }
-
-        model.addAttribute(
-                "bookings",
-                bookingRepo.findByUserId(
-                        u.getUserId()));
-
-        return "myBookings";
+        return "redirect:/login";
     }
 
+    var bookings =
+            bookingRepo.findByUserId(
+                    u.getUserId());
+
+    LocalDateTime now =
+            LocalDateTime.now();
+
+    for(Booking b : bookings)
+    {
+        if(!"Cancelled".equalsIgnoreCase(
+                b.getStatus()))
+        {
+            TourPackage p =
+                    packageRepo.findById(
+                            b.getPackageId())
+                    .orElse(null);
+
+            if(p != null)
+            {
+                LocalDateTime start =
+                        p.getStartDateTime();
+
+                LocalDateTime end =
+                        start.plusDays(
+                                p.getDuration());
+
+                if(now.isAfter(end))
+                {
+                    b.setStatus(
+                            "Completed");
+                }
+                else if(now.isAfter(start))
+                {
+                    b.setStatus(
+                            "Ongoing");
+                }
+                else if(now.plusDays(5)
+                        .isAfter(start))
+                {
+                    b.setStatus(
+                            "Coming Soon");
+                }
+                else
+                {
+                    b.setStatus(
+                            "Booked");
+                }
+            }
+        }
+    }
+
+    model.addAttribute(
+            "bookings",
+            bookings);
+
+    return "myBookings";
+}
 
     @GetMapping("/cancelBooking/{id}")
     public String cancelBooking(
@@ -161,25 +211,76 @@ public class BookingController {
 
 
     @GetMapping("/admin/bookings")
-    public String viewBookings(
-            Model model,
-            HttpSession session)
+public String viewBookings(
+        Model model,
+        HttpSession session)
+{
+
+    String role =
+            (String) session.getAttribute(
+                    "role");
+
+    if(role == null ||
+       !role.equals("ADMIN"))
     {
-
-        String role =
-        (String) session.getAttribute("role");
-
-        if(role == null ||
-           !role.equals("ADMIN"))
-        {
-            return "redirect:/";
-        }
-
-        model.addAttribute(
-                "bookings",
-                bookingRepo.findAll());
-
-        return "bookings";
+        return "redirect:/";
     }
+
+    var bookings =
+            bookingRepo.findAll();
+
+    LocalDateTime now =
+            LocalDateTime.now();
+
+    for(Booking b : bookings)
+    {
+        if(!"Cancelled".equalsIgnoreCase(
+                b.getStatus()))
+        {
+            TourPackage p =
+                    packageRepo.findById(
+                            b.getPackageId())
+                    .orElse(null);
+
+            if(p != null)
+            {
+                LocalDateTime start =
+                        p.getStartDateTime();
+
+                LocalDateTime end =
+                        start.plusDays(
+                                p.getDuration());
+
+                if(now.isAfter(end))
+                {
+                    b.setStatus(
+                            "Completed");
+                }
+                else if(now.isAfter(start))
+                {
+                    b.setStatus(
+                            "Ongoing");
+                }
+                else if(now.plusDays(5)
+                        .isAfter(start))
+                {
+                    b.setStatus(
+                            "Coming Soon");
+                }
+                else
+                {
+                    b.setStatus(
+                            "Booked");
+                }
+            }
+        }
+    }
+
+    model.addAttribute(
+            "bookings",
+            bookings);
+
+    return "bookings";
+}
 
 }
