@@ -17,4 +17,5 @@ extends JpaRepository<Attraction, Long>{
             String attractionName,
             String location);
 
+
 }

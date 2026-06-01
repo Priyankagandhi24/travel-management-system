@@ -129,7 +129,8 @@ th:text=
 
 <a th:if="${b.status == 'Booked' || b.status == 'Coming Soon'}"
    th:href="@{'/cancelBooking/' + ${b.bookingId}}"
-   class="btn btn-danger btn-sm">
+   class="btn btn-danger btn-sm"
+    onclick="return confirm('Are you sure you want to cancel this booking?');">
 
     Cancel
 

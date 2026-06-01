@@ -24,15 +24,37 @@ public class LoginController {
         return "register";
     }
 
-
-    @PostMapping("/saveUser")
+@PostMapping("/saveUser")
 public String saveUser(User u)
 {
-    u.setRole("USER");
+
+    if(!u.getPhoneNumber()
+            .matches("\\d{10}"))
+    {
+        return "redirect:/register?invalidPhone";
+    }
+
+    User existingEmail =
+            userRepo.findByEmail(
+                    u.getEmail());
+
+    if(existingEmail != null)
+    {
+        return "redirect:/register?emailExists";
+    }
+
+    User existingPhone =
+            userRepo.findByPhoneNumber(
+                    u.getPhoneNumber());
+
+    if(existingPhone != null)
+    {
+        return "redirect:/register?phoneExists";
+    }
 
     userRepo.save(u);
 
-    return "redirect:/login?registered";
+    return "redirect:/login";
 }
 
 

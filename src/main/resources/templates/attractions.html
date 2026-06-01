@@ -49,43 +49,32 @@ box-shadow:0 4px 12px rgba(0,0,0,0.15);
 }
 
 .card:hover{
-
 transform:translateY(-5px);
-
 box-shadow:0 8px 20px rgba(0,0,0,0.25);
-
 }
 
 .card img{
-
 height:250px;
-
 object-fit:cover;
-
 }
 
 .card-body{
-
 text-align:center;
-
 display:flex;
-
 flex-direction:column;
-
 justify-content:space-between;
-
 }
 
 .page-title{
-
+text-align:center;
+margin-top:20px;
+color:white;
 font-weight:bold;
 
 }
 
 .search-box{
-
 max-width:450px;
-
 }
 
 .navbar{
@@ -116,18 +105,14 @@ max-width:450px;
 
 </div>
 
-<div class="container">
-
-<div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
-
-<h2 class="page-title">
+<h1 class="page-title">
 All Attractions
-</h2>
+</h1>
 
 <form
 action="/attractions"
 method="get"
-class="search-box">
+class="search-box mx-auto mb-4">
 
 <div class="input-group">
 
@@ -150,19 +135,15 @@ Search
 
 </form>
 
-<div th:if="${session.role == 'ADMIN'}">
-
+<div th:if="${session.role == 'ADMIN'}"
+class="text-center mb-4">
 <a href="/admin/addAttraction"
 class="btn btn-success">
-
 + Add Attraction
-
 </a>
-
 </div>
 
-</div>
-
+<div class="container mt-5">
 <div class="row">
 
 <div class="col-md-4"

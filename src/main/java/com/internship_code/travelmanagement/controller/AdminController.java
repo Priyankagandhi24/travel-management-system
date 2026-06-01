@@ -135,8 +135,8 @@ public class AdminController {
 
         attractionRepo.save(a);
 
-        return "redirect:/admin/addAttraction?saved=true";
-    }
+        return "redirect:/attractions?saved";    
+}
 
 
     @GetMapping("/attractions")

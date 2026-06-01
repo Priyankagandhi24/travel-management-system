@@ -32,7 +32,7 @@ private Double price;
 
 private Integer availableSeats;
 
-@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+@DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
 private LocalDateTime startDateTime;
 
 private String description;

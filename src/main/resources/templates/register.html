@@ -65,6 +65,18 @@ required>
 
 </div>
 
+<p
+th:if="${param.emailExists}"
+style="
+color:#ff0000;
+font-weight:bold;
+margin-top:5px;
+margin-bottom:10px;">
+
+Email already registered.
+
+</p>
+
 <div class="mb-3">
 
 <label>Phone Number</label>
@@ -72,11 +84,35 @@ required>
 <input
 type="text"
 name="phoneNumber"
+id="phoneNumber"
 class="form-control"
 required
+maxlength="10"
 placeholder="Enter phone number">
 
-</div>
+<p
+th:if="${param.invalidPhone}"
+style="
+color:red;
+font-weight:bold;
+margin-top:5px;
+margin-bottom:10px;">
+
+Enter 10 digit phone number.
+
+</p>
+
+<p
+th:if="${param.phoneExists}"
+style="
+color:#ff0000;
+font-weight:bold;
+margin-top:5px;
+margin-bottom:10px;">
+
+Phone number already registered.
+
+</p>
 
 <div class="mb-3">
 
