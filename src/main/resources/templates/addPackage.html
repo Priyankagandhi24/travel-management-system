@@ -239,39 +239,6 @@
 
 <script>
 
-document.getElementById("searchAttraction")
-.addEventListener("keyup", function(){
-
-    let keyword =
-    this.value.toLowerCase();
-
-    let attractions =
-    document.querySelectorAll(".attraction-item");
-
-    attractions.forEach(function(item){
-
-        let name =
-        item.querySelector(".attraction-name")
-        .innerText.toLowerCase();
-
-        let location =
-        item.querySelector(".attraction-location")
-        .innerText.toLowerCase();
-
-        if(name.includes(keyword) ||
-           location.includes(keyword))
-        {
-            item.style.display = "";
-        }
-        else
-        {
-            item.style.display = "none";
-        }
-
-    });
-
-});
-
 let now = new Date();
 
 now.setMinutes(

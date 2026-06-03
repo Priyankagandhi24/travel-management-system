@@ -176,13 +176,23 @@ public String attractionDetails(
 }
 
     @PostMapping("/packages/delete/{id}")
-    public String deletePackage(
-            @PathVariable Long id)
+public String deletePackage(
+        @PathVariable Long id,
+        HttpSession session)
+{
+
+    String role =
+    (String) session.getAttribute("role");
+
+    if(role == null ||
+       !role.equals("ADMIN"))
     {
-
-        packageRepo.deleteById(id);
-
-        return "redirect:/packages";
+        return "redirect:/";
     }
+
+    packageRepo.deleteById(id);
+
+    return "redirect:/packages";
+}
 
 }

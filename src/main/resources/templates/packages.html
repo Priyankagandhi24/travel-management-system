@@ -165,6 +165,8 @@ Search
             View Details
             </a>
 
+<div th:if="${session.role == 'ADMIN'}">
+
             <form th:action="@{'/packages/delete/' + ${p.packageId}}"
                   method="post"
                   style="display:inline;">
@@ -174,7 +176,7 @@ Search
                 </button>
 
             </form>
-
+</div>
         </div>
 
     </div>

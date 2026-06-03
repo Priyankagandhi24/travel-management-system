@@ -61,9 +61,20 @@ public class BookingController {
 
     @PostMapping("/saveBooking")
     public String saveBooking(
-            Booking b)
+            Booking b,
+        HttpSession session)
     {
+User u =
+            (User) session.getAttribute(
+                    "loggedUser");
 
+    if(u == null)
+    {
+        return "redirect:/login";
+    }
+
+    b.setUserId(u.getUserId());
+    b.setUserName(u.getName());
         TourPackage p =
                 packageRepo.findById(
                         b.getPackageId())
@@ -139,27 +150,30 @@ public String myBookings(
                         start.plusDays(
                                 p.getDuration());
 
-                if(now.isAfter(end))
-                {
-                    b.setStatus(
-                            "Completed");
-                }
-                else if(now.isAfter(start))
-                {
-                    b.setStatus(
-                            "Ongoing");
-                }
-                else if(now.plusDays(5)
-                        .isAfter(start))
-                {
-                    b.setStatus(
-                            "Coming Soon");
-                }
-                else
-                {
-                    b.setStatus(
-                            "Booked");
-                }
+                String newStatus;
+
+if(now.isAfter(end))
+{
+    newStatus = "Completed";
+}
+else if(now.isAfter(start))
+{
+    newStatus = "Ongoing";
+}
+else if(now.plusDays(5).isAfter(start))
+{
+    newStatus = "Coming Soon";
+}
+else
+{
+    newStatus = "Booked";
+}
+
+if(!newStatus.equals(b.getStatus()))
+{
+    b.setStatus(newStatus);
+    bookingRepo.save(b);
+}
             }
         }
     }
@@ -172,41 +186,46 @@ public String myBookings(
 }
 
     @GetMapping("/cancelBooking/{id}")
-    public String cancelBooking(
-            @PathVariable Long id)
-    {
+public String cancelBooking(
+        @PathVariable Long id,
+        HttpSession session)
+{
+    Booking b =
+            bookingRepo.findById(id)
+            .orElse(null);
+User u =
+        (User) session.getAttribute(
+                "loggedUser");
 
-        Booking b =
-                bookingRepo.findById(id)
-                .orElse(null);
+if(u == null)
+{
+    return "redirect:/login";
+}
 
-        if(b != null)
-        {
+if(b == null ||
+   !b.getUserId().equals(
+           u.getUserId()))
+{
+    return "redirect:/myBookings";
+}
+        TourPackage p =
+        packageRepo.findById(
+                b.getPackageId())
+        .orElse(null);
 
-            TourPackage p =
-                    packageRepo.findById(
-                            b.getPackageId())
-                    .orElse(null);
+if(p != null)
+{
+    p.setAvailableSeats(
+            p.getAvailableSeats()
+            + b.getNumberOfPeople());
 
-            if(p != null)
-            {
-                p.setAvailableSeats(
+    packageRepo.save(p);
+}
 
-                        p.getAvailableSeats()
-                        + b.getNumberOfPeople()
+b.setStatus("Cancelled");
+bookingRepo.save(b);
 
-                );
-
-                packageRepo.save(p);
-            }
-
-            b.setStatus(
-                    "Cancelled");
-
-            bookingRepo.save(b);
-        }
-
-        return "redirect:/myBookings";
+return "redirect:/myBookings";
     }
 
 
@@ -251,27 +270,30 @@ public String viewBookings(
                         start.plusDays(
                                 p.getDuration());
 
-                if(now.isAfter(end))
-                {
-                    b.setStatus(
-                            "Completed");
-                }
-                else if(now.isAfter(start))
-                {
-                    b.setStatus(
-                            "Ongoing");
-                }
-                else if(now.plusDays(5)
-                        .isAfter(start))
-                {
-                    b.setStatus(
-                            "Coming Soon");
-                }
-                else
-                {
-                    b.setStatus(
-                            "Booked");
-                }
+               String newStatus;
+
+if(now.isAfter(end))
+{
+    newStatus = "Completed";
+}
+else if(now.isAfter(start))
+{
+    newStatus = "Ongoing";
+}
+else if(now.plusDays(5).isAfter(start))
+{
+    newStatus = "Coming Soon";
+}
+else
+{
+    newStatus = "Booked";
+}
+
+if(!newStatus.equals(b.getStatus()))
+{
+    b.setStatus(newStatus);
+    bookingRepo.save(b);
+}
             }
         }
     }
