@@ -15,37 +15,21 @@ body{
 }
 
 .container{
-
-background:#FFC8DD;
-
 padding:30px;
-
 margin-top:30px;
-
 margin-bottom:30px;
-
 border-radius:20px;
-
 }
 
 .card{
-
 margin-bottom:25px;
-
 border:none;
-
 border-radius:18px;
-
 overflow:hidden;
-
 transition:0.3s;
-
 height:420px;
-
 background:white;
-
 box-shadow:0 4px 12px rgba(0,0,0,0.15);
-
 }
 
 .card:hover{
@@ -70,7 +54,6 @@ text-align:center;
 margin-top:20px;
 color:white;
 font-weight:bold;
-
 }
 
 .search-box{
@@ -106,7 +89,7 @@ max-width:450px;
 </div>
 
 <h1 class="page-title">
-All Attractions
+Explore Attractions
 </h1>
 
 <form
@@ -135,15 +118,26 @@ Search
 
 </form>
 
-<div th:if="${session.role == 'ADMIN'}"
-class="text-center mb-4">
-<a href="/admin/addAttraction"
-class="btn btn-success">
-+ Add Attraction
-</a>
+<div th:if="${session.role == 'ADMIN'}">
+
+<div class="text-center mb-4">
+
+    <a href="/admin/addAttraction"
+       class="btn btn-success">
+
+        + Add Attraction
+
+    </a>
+
 </div>
 
-<div class="container mt-5">
+
+</div>
+
+</div>
+
+<div class="container mt-5">  
+
 <div class="row">
 
 <div class="col-md-4"
