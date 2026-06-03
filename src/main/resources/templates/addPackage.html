@@ -2,94 +2,202 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
     <title>Add Tour Package</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
     <style>
 
-body{
-    background:#003566 ;
-}
+        body{
+            background:#003566;
+        }
 
-.container{
-background:#FFC8DD ;
-    padding:30px;
-    border-radius:15px;
-}
+        .container{
+            background:#FFC8DD;
+            padding:30px;
+            border-radius:15px;
+            max-width:900px;
+            margin-top:30px;
+            margin-bottom:30px;
+        }
 
-</style>
+        .attraction-container{
+
+            height:400px;
+
+            overflow-y:auto;
+
+            border:2px solid #ced4da;
+
+            border-radius:12px;
+
+            padding:12px;
+
+            background:rgba(255,255,255,0.9);
+
+        }
+
+        .attraction-item{
+
+            padding:8px;
+
+            margin-bottom:5px;
+
+            border-radius:8px;
+
+        }
+
+        .attraction-item:hover{
+
+            background:#f1f5f9;
+
+        }
+
+        /* Scrollbar */
+
+        .attraction-container::-webkit-scrollbar{
+
+            width:12px;
+
+        }
+
+        .attraction-container::-webkit-scrollbar-track{
+
+            background:#e9ecef;
+
+            border-radius:10px;
+
+        }
+
+        .attraction-container::-webkit-scrollbar-thumb{
+
+            background:#0d6efd;
+
+            border-radius:10px;
+
+        }
+
+        .attraction-container::-webkit-scrollbar-thumb:hover{
+
+            background:#084298;
+
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-<div class="container mt-4">
+<div class="container">
 
-    <h2 class="mb-4">Add Tour Package</h2>
+    <h2 class="text-center mb-4">
 
-    <form action="/admin/save" method="post">
+        Add Tour Package
+
+    </h2>
+
+    <div th:if="${param.invalidDate}"
+     class="text-danger fw-bold mb-3">
+
+    Start date must be in the future.
+
+</div>
+
+    <form action="/admin/save"
+          method="post">
 
         <div class="mb-3">
+
             <label>Package Name</label>
+
             <input type="text"
                    class="form-control"
                    name="packageName"
                    required>
+
         </div>
 
         <div class="mb-3">
+
             <label>Destination</label>
+
             <input type="text"
                    class="form-control"
                    name="destination"
                    required>
+
         </div>
 
         <div class="mb-3">
+
             <label>Duration (Days)</label>
+
             <input type="number"
                    class="form-control"
-                   name="duration">
+                   name="duration"
+                   required>
+
         </div>
 
         <div class="mb-3">
+
             <label>Price</label>
+
             <input type="number"
                    class="form-control"
                    name="price"
                    required>
+
         </div>
 
-
         <div class="mb-3">
+
             <label>Available Seats</label>
-            <input type="number" class="form-control"
-                name="availableSeats" required>
-        </div>
 
-        <div class="mb-3">
-            <label>Start Date & Time</label>
-            <input type="datetime-local"
+            <input type="number"
                    class="form-control"
-                   name="startDateTime">
+                   name="availableSeats"
+                   required>
+
         </div>
 
+        <div class="mb-3">
+
+            <label>Start Date & Time</label>
+
+            <input type="datetime-local"
+       class="form-control"
+       name="startDateTime"
+       id="startDateTime"
+       required>
+
+        </div>
 
         <div class="mb-3">
+
             <label>Image URL</label>
+
             <input type="text"
                    class="form-control"
                    name="imageUrl"
                    placeholder="Paste image URL">
+
         </div>
 
         <div class="mb-3">
+
             <label>Description</label>
 
             <textarea class="form-control"
                       rows="4"
-                      name="description">
-            </textarea>
+                      name="description"></textarea>
+
         </div>
+
+        <!-- Attractions Section -->
 
         <div class="mb-3">
             <label>Select Attractions</label>
@@ -104,10 +212,11 @@ background:#FFC8DD ;
 
                 <br>
             </div>
+
         </div>
 
         <button type="submit"
-                class="btn btn-primary">
+                class="btn btn-primary w-100">
 
             Add Package
 
@@ -117,5 +226,56 @@ background:#FFC8DD ;
 
 </div>
 
+<script>
+
+document.getElementById("searchAttraction")
+.addEventListener("keyup", function(){
+
+    let keyword =
+    this.value.toLowerCase();
+
+    let attractions =
+    document.querySelectorAll(".attraction-item");
+
+    attractions.forEach(function(item){
+
+        let name =
+        item.querySelector(".attraction-name")
+        .innerText.toLowerCase();
+
+        let location =
+        item.querySelector(".attraction-location")
+        .innerText.toLowerCase();
+
+        if(name.includes(keyword) ||
+           location.includes(keyword))
+        {
+            item.style.display = "";
+        }
+        else
+        {
+            item.style.display = "none";
+        }
+
+    });
+
+});
+
+let now = new Date();
+
+now.setMinutes(
+    now.getMinutes() -
+    now.getTimezoneOffset()
+);
+
+document.getElementById("startDateTime")
+.setAttribute(
+    "min",
+    now.toISOString().slice(0,16)
+);
+
+</script>
+
 </body>
+
 </html>

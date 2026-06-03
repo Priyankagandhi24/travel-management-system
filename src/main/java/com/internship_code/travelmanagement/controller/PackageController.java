@@ -153,23 +153,27 @@ public String packageDetails(
 
 
     @GetMapping("/attraction/{id}")
-    public String attractionDetails(
-            @PathVariable Long id,
-            Model model)
-    {
+public String attractionDetails(
+        @PathVariable Long id,
+        Long packageId,
+        Model model)
+{
 
-        Attraction attraction =
-                attractionRepo
-                .findById(id)
-                .orElse(null);
+    Attraction attraction =
+            attractionRepo
+            .findById(id)
+            .orElse(null);
 
-        model.addAttribute(
-                "attraction",
-                attraction);
+    model.addAttribute(
+            "attraction",
+            attraction);
 
-        return "attractionDetails";
-    }
+    model.addAttribute(
+            "packageId",
+            packageId);
 
+    return "attractionDetails";
+}
 
     @PostMapping("/packages/delete/{id}")
     public String deletePackage(

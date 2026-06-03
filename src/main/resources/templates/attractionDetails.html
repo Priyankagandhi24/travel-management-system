@@ -54,8 +54,17 @@ Location:
 
 <p th:text="${attraction.description}"></p>
 
-<a href="/packages"
-   class="btn btn-dark">
+<a th:if="${packageId != null}"
+   th:href="@{'/package/' + ${packageId}}"
+   class="btn"
+   style="background:black;color:white;">
+    Back
+</a>
+
+<a th:if="${packageId == null}"
+   href="/attractions"
+   class="btn"
+   style="background:black;color:white;">
     Back
 </a>
 </div>

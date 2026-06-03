@@ -198,8 +198,8 @@ Attractions Included
 class="list-group-item"
 th:each="a : ${attractions}">
 
-<a th:href="@{'/attraction/' + ${a.attractionId}}"
-class="attraction-link">
+<a th:href="@{'/attraction/' + ${a.attractionId} + '?packageId=' + ${package.packageId}}"
+   class="attraction-link">
 
 <span th:text="${a.attractionName}"></span>
 

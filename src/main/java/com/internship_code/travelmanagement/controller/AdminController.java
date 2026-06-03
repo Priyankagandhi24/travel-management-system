@@ -76,6 +76,12 @@ public class AdminController {
             return "redirect:/";
         }
 
+        if(p.getStartDateTime().isBefore(
+        java.time.LocalDateTime.now()))
+{
+    return "redirect:/admin/add?invalidDate";
+}
+
         TourPackage savedPackage =
                 repo.save(p);
 
