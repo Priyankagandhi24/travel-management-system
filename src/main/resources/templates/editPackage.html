@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>edit Tour Package</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <style>
+
+        body{
+            background:#003566;
+        }
+
+        .container{
+            background:#FFC8DD;
+            padding:30px;
+            border-radius:15px;
+            max-width:900px;
+            margin-top:30px;
+            margin-bottom:30px;
+        }
+
+        .attraction-container{
+
+            height:400px;
+
+            overflow-y:auto;
+
+            border:2px solid #ced4da;
+
+            border-radius:12px;
+
+            padding:12px;
+
+            background:rgba(255,255,255,0.9);
+
+        }
+
+        .attraction-item{
+
+            padding:8px;
+
+            margin-bottom:5px;
+
+            border-radius:8px;
+
+        }
+
+        .attraction-item:hover{
+
+            background:#f1f5f9;
+
+        }
+
+        /* Scrollbar */
+
+        .attraction-container::-webkit-scrollbar{
+
+            width:12px;
+
+        }
+
+        .attraction-container::-webkit-scrollbar-track{
+
+            background:#e9ecef;
+
+            border-radius:10px;
+
+        }
+
+        .attraction-container::-webkit-scrollbar-thumb{
+
+            background:#0d6efd;
+
+            border-radius:10px;
+
+        }
+
+        .attraction-container::-webkit-scrollbar-thumb:hover{
+
+            background:#084298;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2 class="text-center mb-4">
+
+        Edit Tour Package
+
+    </h2>
+
+    <div th:if="${param.invalidDate}"
+     class="text-danger fw-bold mb-3">
+
+    Start date must be in the future.
+
+</div>
+
+   <form action="/admin/updatePackage"
+      method="post">
+
+        <div class="mb-3">
+
+            <label>Package Name</label>
+
+            <input type="text"
+                   class="form-control"
+                   name="packageName"
+                   th:value="${package.packageName}"
+                   required>
+
+        </div>
+<input type="hidden"
+       name="packageId"
+       th:value="${package.packageId}">
+        <div class="mb-3">
+
+            <label>Destination</label>
+
+            <input type="text"
+                   class="form-control"
+                   name="destination"
+                   th:value="${package.destination}">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label>Duration (Days)</label>
+
+            <input type="number"
+                   class="form-control"
+                   name="duration"
+                   th:value="${package.duration}"
+                   required>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label>Price</label>
+
+            <input type="number"
+                   class="form-control"
+                   name="price"
+                   th:value="${package.price}"
+                   required>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label>Available Seats</label>
+
+            <input type="number"
+                   class="form-control"
+                   name="availableSeats"
+                   th:value="${package.availableSeats}"
+                   required>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label>Start Date & Time</label>
+
+            <<input type="datetime-local"
+       class="form-control"
+       name="startDateTime"
+       id="startDateTime"
+       th:value="${#temporals.format(package.startDateTime, 'yyyy-MM-dd'' ''HH:mm')}"
+       required>
+
+        </div>
+
+        <div class="mb-3">
+
+            <label>Image URL</label>
+
+            <input type="text"
+                   class="form-control"
+                   name="imageUrl"
+                   th:value="${package.imageUrl}"
+                   placeholder="Paste image URL">
+
+        </div>
+
+        <div class="mb-3">
+
+            <label>Description</label>
+
+            <textarea class="form-control"
+                      rows="4"
+                      name="description"
+                      th:text="${package.description}"></textarea>
+
+        </div>
+
+        <!-- Attractions Section -->
+
+        <div class="mb-3">
+            <label>Select Attractions</label>
+            <div th:each="a : ${attractions}">
+                <input type="checkbox"
+                        name="selectedAttractions"
+                        th:value="${a.attractionId}"
+                        th:checked="${selectedIds.contains(a.attractionId)}">
+                <span th:text="${a.attractionId}"></span>
+                -
+                <span th:text="${a.attractionName}"></span>
+                (<span th:text="${a.location}"></span>)
+                <br>
+            </div>
+
+        </div>
+
+        <div class="d-flex gap-3 justify-content-center">
+
+    <a href="/packages"
+       class="btn btn-dark w-50">
+
+        ← Back to Packages
+
+    </a>
+
+                <button type="submit" class="btn btn-danger w-50">
+                    Delete
+                </button>
+
+    <button type="submit"
+            class="btn btn-primary w-50">
+
+        Edit Package
+
+    </button>
+
+</div>
+
+    </form>
+
+</div>
+
+<script>
+
+let now = new Date();
+
+now.setMinutes(
+    now.getMinutes() -
+    now.getTimezoneOffset()
+);
+
+document.getElementById("startDateTime")
+.setAttribute(
+    "min",
+    now.toISOString().slice(0,16)
+);
+
+</script>
+
+</body>
+
+</html>

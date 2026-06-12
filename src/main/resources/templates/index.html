@@ -51,6 +51,7 @@ font-size:30px;
 margin-top:50px;
 margin-bottom:20px;
 font-weight:bold;
+
 }
 
 .feature-card{
@@ -66,15 +67,14 @@ transform:scale(1.05);
 }
 
 .scroll-box{
-
-display:flex;
-overflow-x:auto;
-gap:20px;
-padding-bottom:20px;
-
-scroll-behavior:smooth;
+    display: flex;
+    flex-wrap: nowrap;      /* Force single row */
+    overflow-x: auto;
+    overflow-y:hidden;
+    gap: 20px;
+    padding-bottom: 20px;
+    scroll-behavior: smooth;
 }
-
 
 /* Track */
 
@@ -83,7 +83,6 @@ scroll-behavior:smooth;
 height:14px;
 
 }
-
 
 /* Background line */
 
@@ -109,6 +108,7 @@ border:3px solid rgba(0,0,0,0.2);
 }
 
 
+
 /* Hover effect */
 
 .scroll-box::-webkit-scrollbar-thumb:hover{
@@ -117,10 +117,12 @@ background:white;
 }
 
 .package-card{
+flex: 0 0 300px;
 min-width:300px;
 background:white;
 border-radius:15px;
 padding:15px;
+
 }
 
 .package-card img{
@@ -142,6 +144,30 @@ color:white;
 color:white;
 text-decoration:none;
 margin-right:25px;
+}
+
+.title-wrapper{
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.package-title{
+    margin: 0;
+    display: inline-block;
+}
+
+.package-card:hover .moving{
+    animation: marquee 2s linear infinite;
+}
+
+@keyframes marquee{
+    from{
+        transform: translateX(0);
+    }
+    to{
+        transform: translateX(calc(-100% + 250px));
+    }
 }
 
 </style>
@@ -250,8 +276,11 @@ th:with="pStat=${#ids.seq('p')}">
 <img th:src="*{imageUrl}"
 alt="Package Image">
 
-<h4 th:text="*{packageName}">
-</h4>
+<div class="title-wrapper">
+    <h4 th:class="${#strings.length(p.packageName) > 25} ? 'package-title moving' : 'package-title'"
+        th:text="${p.packageName}">
+    </h4>
+</div>
 
 <p>
 
@@ -307,8 +336,12 @@ th:each="a:${attractions}">
 <img th:src="${a.imageUrl}"
 alt="Attraction Image">
 
-<h4 th:text="${a.attractionName}">
-</h4>
+<div class="title-wrapper">
+    <h4 th:class="${#strings.length(a.attractionName) > 25} ? 'package-title moving' : 'package-title'"
+        th:text="${a.attractionName}">
+    </h4>
+</div>
+
 
 <p>
 

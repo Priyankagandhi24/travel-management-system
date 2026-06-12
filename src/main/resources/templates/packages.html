@@ -160,23 +160,23 @@ Search
                 <span th:text="${p.availableSeats}"></span>
             </p>
 
-            <a th:href="@{'/package/' + ${p.packageId}}"
-            class="btn btn-primary">
+            
+<div th:if="${session.role == 'ADMIN'}"
+     style="display:inline;"
+     class="d-flex gap-2">
+
+     <a th:href="@{'/package/' + ${p.packageId}}"
+            class="btn btn-primary w-50">
             View Details
-            </a>
+    </a>
 
-<div th:if="${session.role == 'ADMIN'}">
+    <a th:href="@{'/admin/editPackage/' + ${p.packageId}}"
+       class="btn btn-warning w-50">
+        Edit
+    </a>
 
-            <form th:action="@{'/packages/delete/' + ${p.packageId}}"
-                  method="post"
-                  style="display:inline;">
-
-                <button type="submit" class="btn btn-danger">
-                    Delete
-                </button>
-
-            </form>
 </div>
+
         </div>
 
     </div>

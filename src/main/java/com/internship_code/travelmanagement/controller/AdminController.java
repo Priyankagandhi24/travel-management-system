@@ -1,4 +1,5 @@
 package com.internship_code.travelmanagement.controller;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -6,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.internship_code.travelmanagement.entity.Attraction;
 import com.internship_code.travelmanagement.entity.PackageAttraction;
@@ -302,6 +304,67 @@ public String deleteAttraction(
     attractionRepo.deleteById(id);
 
     return "redirect:/attractions";
+}
+
+@GetMapping("/admin/editPackage/{id}")
+public String editPackagePage(
+        @PathVariable Long id,
+        Model model,
+        HttpSession session)
+{
+    String role =
+            (String) session.getAttribute("role");
+
+    if(role == null ||
+       !role.equals("ADMIN"))
+    {
+        return "redirect:/";
+    }
+
+    TourPackage p =
+            repo.findById(id)
+                .orElse(null);
+
+    List<PackageAttraction> mappings =
+            packageAttractionRepo
+                    .findByPackageId(id);
+
+    List<Long> selectedIds =
+        mappings.stream()
+                .map(PackageAttraction::getAttractionId)
+                .toList();
+
+    model.addAttribute("package", p);
+
+    model.addAttribute("attractions",
+                       attractionRepo.findAll());
+
+    model.addAttribute("selectedIds",
+                       selectedIds);
+
+    return "editPackage";
+}
+
+@PostMapping("/admin/updatePackage")
+public String updatePackage(
+        TourPackage p,
+        @RequestParam(required = false)
+        List<Long> selectedAttractions,
+        HttpSession session)
+{
+    String role =
+            (String) session.getAttribute("role");
+
+    if(role == null ||
+       !role.equals("ADMIN"))
+    {
+        return "redirect:/";
+    }
+
+    repo.save(p);
+
+    return "redirect:/package/" +
+           p.getPackageId();
 }
 
 }
