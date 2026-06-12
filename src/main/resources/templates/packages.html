@@ -159,22 +159,21 @@ Search
                 Available Seats:
                 <span th:text="${p.availableSeats}"></span>
             </p>
-
-            
-<div th:if="${session.role == 'ADMIN'}"
-     style="display:inline;"
-     class="d-flex gap-2">
-
-     <a th:href="@{'/package/' + ${p.packageId}}"
+<div class="d-flex gap-2">
+      <a th:href="@{'/package/' + ${p.packageId}}"
             class="btn btn-primary w-50">
             View Details
     </a>
 
+<div th:if="${session.role == 'ADMIN'}"
+     style="display:inline;"
+     >
     <a th:href="@{'/admin/editPackage/' + ${p.packageId}}"
-       class="btn btn-warning w-50">
+       class="btn btn-warning w-500" >
         Edit
     </a>
 
+</div>
 </div>
 
         </div>
