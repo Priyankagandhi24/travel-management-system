@@ -26,4 +26,6 @@ public class Attraction {
 
     private String imageUrl;
 
+    
+
 }

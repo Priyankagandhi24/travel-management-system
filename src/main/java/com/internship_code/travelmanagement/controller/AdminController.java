@@ -40,6 +40,7 @@ public class AdminController {
 
 
     @GetMapping("/admin/add")
+    
     public String addPackagePage(
             Model model,
             HttpSession session)
@@ -57,6 +58,11 @@ public class AdminController {
         model.addAttribute(
                 "attractions",
                 attractionRepo.findAll());
+
+        model.addAttribute(
+            "locations",
+            attractionRepo.findDistinctLocations()
+    );
 
         return "addPackage";
     }

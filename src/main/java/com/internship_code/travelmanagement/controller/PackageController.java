@@ -148,6 +148,8 @@ public String packageDetails(
                 "keyword",
                 keyword);
 
+        
+
         return "packages";
     }
 

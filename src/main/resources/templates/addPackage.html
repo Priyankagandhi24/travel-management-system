@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
           rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+      rel="stylesheet" />
     <style>
 
         body{
@@ -25,9 +27,7 @@
 
         .attraction-container{
 
-            height:400px;
-
-            overflow-y:auto;
+            height:auto;
 
             border:2px solid #ced4da;
 
@@ -35,7 +35,7 @@
 
             padding:12px;
 
-            background:rgba(255,255,255,0.9);
+            background:white;
 
         }
 
@@ -84,7 +84,27 @@
             background:#084298;
 
         }
+.select2-container--default .select2-selection--multiple{
 
+    min-height:50px;
+
+    border-radius:10px;
+
+    border:1px solid #ced4da;
+
+}
+
+.select2-container{
+
+    width:100% !important;
+
+}
+
+.select2-selection__choice{
+
+    font-size:14px;
+
+}
     </style>
 
 </head>
@@ -196,29 +216,56 @@
                       name="description"></textarea>
 
         </div>
+<div class="mb-3">
 
-        <!-- Attractions Section -->
+    <label class="fw-bold">Filter By Destination</label>
 
-        <div class="mb-3">
-            <label>Select Attractions</label>
-            <div th:each="a : ${attractions}">
-                <input type="checkbox"
-                        name="selectedAttractions"
-                        th:value="${a.attractionId}">
-                <span th:text="${a.attractionId}"></span>
-                -
-                <span th:text="${a.attractionName}"></span>
-                (<span th:text="${a.location}"></span>)
+    <select id="locationFilter" class="form-control mb-3">
 
-                <br>
-            </div>
+        <option value="">All Destinations</option>
 
-        </div>
+        <option th:each="loc : ${locations}"
+                th:value="${loc}"
+                th:text="${loc}">
+        </option>
+
+    </select>
+
+</div>
+
+<div class="mb-3">
+
+    <input type="text"
+           id="attractionSearch"
+           class="form-control mb-3"
+           placeholder="Search attractions...">
+
+</div>
+
+<div class="attraction-container">
+
+    <div th:each="a : ${attractions}"
+         class="attraction-item"
+         th:data-location="${a.location}">
+
+        <input type="checkbox"
+               name="selectedAttractions"
+               th:value="${a.attractionId}">
+
+        <strong th:text="${a.attractionName}"></strong>
+
+        <span class="text-muted">
+            (<span th:text="${a.location}"></span>)
+        </span>
+
+    </div>
+
+</div>
 
         <div class="d-flex gap-2">
 
     <a href="/packages"
-       class="btn btn-secondary w-50">
+       class="btn btn-dark w-50">
 
         ← Back to Packages
 
@@ -253,7 +300,63 @@ document.getElementById("startDateTime")
 );
 
 </script>
+<script>
 
+const searchInput =
+    document.getElementById("attractionSearch");
+
+const locationFilter =
+    document.getElementById("locationFilter");
+
+function filterAttractions(){
+
+    const search =
+        searchInput.value.toLowerCase();
+
+    const location =
+        locationFilter.value;
+
+    document
+        .querySelectorAll(".attraction-item")
+        .forEach(item => {
+
+            const text =
+                item.innerText.toLowerCase();
+
+            const itemLocation =
+                item.dataset.location;
+
+            const matchesSearch =
+                text.includes(search);
+
+            const matchesLocation =
+                location === "" ||
+                itemLocation === location;
+
+            item.style.display =
+                matchesSearch &&
+                matchesLocation
+                ? "block"
+                : "none";
+
+        });
+
+}
+
+searchInput.addEventListener(
+    "keyup",
+    filterAttractions
+);
+
+locationFilter.addEventListener(
+    "change",
+    filterAttractions
+);
+
+</script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 
 </html>
